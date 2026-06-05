@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="hr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BrainKompas</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div>
+          <button
+            class="logo-button"
+            onclick="goHome()"
+            aria-label="Povratak na početni ekran"
+          >
+            <span class="logo-mark">🧭</span>
+            <span class="logo">BrainKompas</span>
+          </button>
+        </div>
+
+        <div class="score-box" aria-live="polite">
+          <span>Bodovi:</span>
+          <strong id="score">0</strong>
+          <span id="stars">☆☆☆☆☆</span>
+        </div>
+      </header>
+
+      <section id="homeScreen" class="screen active">
+        <div class="home-hero">
+          <div class="home-hero-text">
+            <p class="app-label">Vista ADHD centar</p>
+            <h1>BrainKompas</h1>
+            <p class="home-welcome">Odaberi vodiča, upiši ime i krenimo.</p>
+          </div>
+
+          <div class="home-card">
+            <div class="guide-box">
+              <p>Odaberi vodiča</p>
+
+              <div class="guide-options">
+                <button
+                  id="boyAvatarBtn"
+                  class="guide-card"
+                  onclick="chooseAvatar('boy')"
+                >
+                  <img src="assets/avatars/boy-guide.png" alt="Dječak vodič" />
+                  <span>Dječak</span>
+                </button>
+
+                <button
+                  id="girlAvatarBtn"
+                  class="guide-card"
+                  onclick="chooseAvatar('girl')"
+                >
+                  <img
+                    src="assets/avatars/girl-guide.png"
+                    alt="Djevojčica vodič"
+                  />
+                  <span>Djevojčica</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="name-box">
+              <label for="childName">Ime djeteta</label>
+              <input
+                id="childName"
+                type="text"
+                placeholder="Upiši ime"
+                autocomplete="given-name"
+              />
+            </div>
+
+            <button class="primary-btn start-btn" onclick="showMainMenu()">
+              Kreni
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="menuScreen" class="screen">
+        <div class="layout-with-avatar">
+          <aside class="avatar-panel">
+            <div id="avatarDisplay" class="avatar"></div>
+            <div id="avatarBubble" class="speech-bubble">
+              Odaberi što želiš raditi.
+            </div>
+          </aside>
+
+          <main class="menu-grid">
+            <button class="menu-card" onclick="showActivities()">
+              <span class="menu-icon">🎮 Igre</span>
+              <h2>Aktivnosti</h2>
+              <p>Vježbaj slova, pažnju i pamćenje.</p>
+            </button>
+
+            <button class="menu-card" onclick="showParents()">
+              <span class="menu-icon">💡 Savjeti</span>
+              <h2>Roditelji</h2>
+              <p>Kratke smjernice za podršku učenju.</p>
+            </button>
+
+            <button class="menu-card" onclick="showResults()">
+              <span class="menu-icon">⭐ Rezultat</span>
+              <h2>Rezultati</h2>
+              <p>Pogledaj bodove i zvjezdice.</p>
+            </button>
+
+            <button class="menu-card" onclick="showSettings()">
+              <span class="menu-icon">⚙️ Postavke</span>
+              <h2>Postavke</h2>
+              <p>Prilagodi tekst, boje, zvuk i animacije.</p>
+            </button>
+
+            <button class="menu-card" onclick="showUserGuide()">
+              <span class="menu-icon">❔ Upute</span>
+              <h2>Kako koristiti</h2>
+              <p>Kratke upute za korištenje aplikacije.</p>
+            </button>
+
+            <button class="menu-card" onclick="resetGame()">
+              <span class="menu-icon">🔄 Reset</span>
+              <h2>Ponovno</h2>
+              <p>Vrati rezultat na početak.</p>
+            </button>
+          </main>
+        </div>
+      </section>
+
+      <section id="activitiesScreen" class="screen">
+        <button class="back-btn" onclick="showMainMenu()">← Natrag</button>
+
+        <h1>Odaberi aktivnost</h1>
+        <p class="subtitle">Odaberi težinu zadataka i kreni s rješavanjem.</p>
+
+        <div class="activity-grid">
+          <button class="activity-card" onclick="openDifficulty('letters')">
+            <span class="card-emoji">🔤</span>
+            <h2>Riječi na isto slovo</h2>
+            <p>Klikni riječi koje počinju zadanim slovom.</p>
+          </button>
+
+          <button class="activity-card" onclick="openDifficulty('memory')">
+            <span class="card-emoji">🧠</span>
+            <h2>Zapamti 3 slova</h2>
+            <p>Pogledaj slova i ponovi ih redom.</p>
+          </button>
+
+          <button class="activity-card" onclick="openDifficulty('animals')">
+            <span class="card-emoji">🐾</span>
+            <h2>Klikni samo životinje</h2>
+            <p>Odaberi životinje među predmetima.</p>
+          </button>
+
+          <button class="activity-card" onclick="openDifficulty('word')">
+            <span class="card-emoji">🧩</span>
+            <h2>Složi riječ</h2>
+            <p>Povuci ili klikni slova i složi riječ.</p>
+          </button>
+        </div>
+      </section>
+
+      <section id="difficultyScreen" class="screen">
+        <button class="back-btn" onclick="showActivities()">
+          ← Aktivnosti
+        </button>
+
+        <h1 id="difficultyTitle">Odaberi razinu</h1>
+        <p class="subtitle">
+          Lakša razina ima manje izbora. Teža razina ima više izbora.
+        </p>
+
+        <div class="difficulty-grid">
+          <button class="difficulty-card" onclick="startActivity('easy')">
+            <span class="card-emoji">🌱</span>
+            <h2>Lakša razina</h2>
+            <p>Jednostavnije riječi i manje pojmova.</p>
+          </button>
+
+          <button class="difficulty-card" onclick="startActivity('hard')">
+            <span class="card-emoji">🚀</span>
+            <h2>Teža razina</h2>
+            <p>Složenije riječi i više pojmova.</p>
+          </button>
+        </div>
+      </section>
+
+      <section id="howToPlayScreen" class="screen">
+        <button class="back-btn" onclick="showActivities()">
+          ← Aktivnosti
+        </button>
+
+        <div class="game-card single-column">
+          <h1>Kako igrati?</h1>
+
+          <ul class="simple-list">
+            <li>Pogledaj uputu.</li>
+            <li>Odaberi odgovor.</li>
+            <li>Klikni Provjeri ili Sljedeće.</li>
+            <li>Na kraju pogledaj rezultat.</li>
+          </ul>
+
+          <button
+            class="primary-btn start-btn"
+            onclick="beginSelectedActivity()"
+          >
+            Počni zadatak
+          </button>
+        </div>
+      </section>
+
+      <section id="gameScreen" class="screen">
+        <button class="back-btn" onclick="showActivities()">
+          ← Aktivnosti
+        </button>
+
+        <div class="game-header">
+          <div>
+            <h1 id="gameTitle">Naslov igre</h1>
+            <p id="levelInfo">Zadatak 1/5</p>
+            <div id="progressDots" class="progress-dots">● ○ ○ ○ ○</div>
+          </div>
+
+          <button class="audio-btn" onclick="speakInstruction()">
+            🔊 Poslušaj uputu
+          </button>
+        </div>
+
+        <div class="layout-with-avatar">
+          <aside class="avatar-panel small">
+            <div id="gameAvatar" class="avatar"></div>
+            <div id="gameBubble" class="speech-bubble">
+              Polako i pažljivo. Možeš ti to!
+            </div>
+          </aside>
+
+          <main class="game-card">
+            <p id="instruction" class="instruction"></p>
+            <div id="visualHint" class="visual-hint"></div>
+            <div id="gameArea" class="game-area"></div>
+            <div id="feedback" class="feedback" aria-live="polite"></div>
+
+            <div class="game-actions">
+              <button class="secondary-btn" onclick="clearCurrentAnswer()">
+                Obriši odabir
+              </button>
+              <button class="secondary-btn" onclick="checkAnswer()">
+                Provjeri
+              </button>
+              <button class="primary-btn" onclick="nextLevel()">
+                Sljedeće
+              </button>
+            </div>
+          </main>
+        </div>
+      </section>
+
+      <section id="parentsScreen" class="screen">
+        <button class="back-btn" onclick="showMainMenu()">← Natrag</button>
+
+        <h1>Savjeti za roditelje</h1>
+        <p class="subtitle">Kratke smjernice za učenje bez pritiska.</p>
+
+        <div class="parent-choice">
+          <button class="parent-card" onclick="showParentAdvice('dyslexia')">
+            <span class="card-emoji">📖</span>
+            <h2>Disleksija</h2>
+            <p>Podrška čitanju, pisanju i razumijevanju uputa.</p>
+          </button>
+
+          <button class="parent-card" onclick="showParentAdvice('adhd')">
+            <span class="card-emoji">🎯</span>
+            <h2>ADHD</h2>
+            <p>Podrška pažnji, rutini i organizaciji zadataka.</p>
+          </button>
+        </div>
+      </section>
+
+      <section id="adviceScreen" class="screen">
+        <button class="back-btn" onclick="showParents()">← Savjeti</button>
+
+        <article class="advice-card">
+          <h1 id="adviceTitle"></h1>
+          <div id="adviceContent"></div>
+        </article>
+      </section>
+
+      <section id="settingsScreen" class="screen">
+        <button class="back-btn" onclick="showMainMenu()">← Natrag</button>
+
+        <div class="game-card single-column">
+          <h1>Postavke</h1>
+          <p class="subtitle">Prilagodi prikaz i zvuk aplikacije.</p>
+
+          <div class="settings-section">
+            <h2>Veličina teksta</h2>
+            <div class="settings-row">
+              <button class="setting-btn" onclick="setLargeText()">
+                Veći font
+              </button>
+              <button class="setting-btn" onclick="setSmallText()">
+                Manji font
+              </button>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h2>Pozadina</h2>
+            <div class="settings-row">
+              <button class="setting-btn" onclick="setLightBackground()">
+                Svijetla pozadina
+              </button>
+              <button class="setting-btn" onclick="setDarkBackground()">
+                Tamnija pozadina
+              </button>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h2>Zvuk</h2>
+            <div class="settings-row">
+              <button class="setting-btn" onclick="enableSound()">
+                Uključi zvuk
+              </button>
+              <button class="setting-btn" onclick="disableSound()">
+                Isključi zvuk
+              </button>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h2>Animacije</h2>
+            <div class="settings-row">
+              <button class="setting-btn" onclick="enableAnimations()">
+                Uključi animacije
+              </button>
+              <button class="setting-btn" onclick="disableAnimations()">
+                Isključi animacije
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="userGuideScreen" class="screen">
+        <button class="back-btn" onclick="showMainMenu()">← Natrag</button>
+
+        <div class="game-card single-column">
+          <h1>Kako koristiti aplikaciju</h1>
+
+          <ul class="simple-list">
+            <li>Odaberi avatar.</li>
+            <li>Upiši ime.</li>
+            <li>Odaberi aktivnost.</li>
+            <li>Odaberi lakšu ili težu razinu.</li>
+            <li>Poslušaj uputu ako želiš.</li>
+            <li>Riješi zadatke.</li>
+            <li>Pogledaj rezultat.</li>
+            <li>Za roditelje postoje dodatni savjeti.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="resultsScreen" class="screen">
+        <button class="back-btn" onclick="showMainMenu()">← Natrag</button>
+
+        <div class="result-card">
+          <h1>Rezultat</h1>
+          <div class="result-stars" id="finalStars">☆☆☆☆☆</div>
+          <p id="finalScoreText"></p>
+          <p id="resultMessage"></p>
+
+          <button class="primary-btn" onclick="showActivities()">
+            Igraj još
+          </button>
+          <button class="secondary-btn" onclick="resetGame()">
+            Kreni ispočetka
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
